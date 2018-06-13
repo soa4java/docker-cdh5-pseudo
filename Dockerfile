@@ -1,6 +1,9 @@
 FROM java:8
 MAINTAINER Martin Chalupa <chalimartines@gmail.com>
 
+ENV LANG C.UTF-8
+ENV LANGUAGE en_US:C
+ENV LC_ALL C.UTF-8
 # Base image doesn't start in root
 WORKDIR /
 
@@ -16,12 +19,14 @@ RUN wget http://archive.cloudera.com/cdh5/ubuntu/trusty/amd64/cdh/archive.key -O
 
 # Install CDH package and dependencies
 RUN  apt-get update && \
-     apt-get install -y zookeeper-server && \
-     apt-get install -y hadoop-conf-pseudo && \
+     apt-get install -y zookeeper/trusty-cdh5.11.0 zookeeper-server && \
+RUN  service zookeeper-server init
+
+RUN  apt-get install -y hadoop-conf-pseudo && \
      apt-get install -y oozie && \
      apt-get install -y python2.7 && \
-     apt-get install -y spark-core spark-history-server spark-python 
-     #apt-get install -y hue hue-server hue-plugins
+     apt-get install -y spark-core spark-history-server spark-python && \
+     apt-get install -y hue hue-server hue-plugins
 
 # Copy updated config files
 COPY conf/core-site.xml /etc/hadoop/conf/core-site.xml
@@ -34,8 +39,13 @@ COPY conf/oozie-site.xml /etc/oozie/conf/oozie-site.xml
 COPY conf/spark-defaults.conf /etc/spark/conf/spark-defaults.conf
 COPY conf/hue.ini /etc/hue/conf/hue.ini
 
-# Format HDFS
-RUN  hdfs hdfs namenode -format
+# Format HDFS - Initial filesystem
+RUN sudo -u hdfs hdfs namenode -format && \
+  service hadoop-hdfs-namenode start && \
+  service hadoop-hdfs-datanode start && \
+  /usr/lib/hadoop/libexec/init-hdfs.sh && \
+  service hadoop-hdfs-namenode stop && \
+  service hadoop-hdfs-datanode stop
 
 COPY conf/run-hadoop.sh /usr/bin/run-hadoop.sh
 RUN chmod +x /usr/bin/run-hadoop.sh
