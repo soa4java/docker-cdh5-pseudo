@@ -20,9 +20,8 @@ RUN  apt-get update && \
      apt-get install -y hadoop-conf-pseudo && \
      apt-get install -y oozie && \
      apt-get install -y python2.7 && \
-     apt-get install -y spark-core spark-history-server spark-python && \
-     apt-get install -y hue-plugins && \
-     apt-get install -y hue
+     apt-get install -y spark-core spark-history-server spark-python 
+     #apt-get install -y hue hue-server hue-plugins
 
 # Copy updated config files
 COPY conf/core-site.xml /etc/hadoop/conf/core-site.xml
