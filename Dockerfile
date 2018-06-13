@@ -23,7 +23,7 @@ RUN  apt-get update && \
 RUN  service zookeeper-server init
 
 RUN  apt-get update && \
-     apt-get install -y hadoop-conf-pseudo && \
+     apt-get install -y hadoop-conf-pseudo
 
      #apt-get install -y oozie && \
      #apt-get install -y python2.7 && \
