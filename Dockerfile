@@ -42,7 +42,7 @@ COPY conf/spark-defaults.conf /etc/spark/conf/spark-defaults.conf
 COPY conf/hue.ini /etc/hue/conf/hue.ini
 
 # Format HDFS - Initial filesystem
-RUN sudo -u hdfs hdfs namenode -format && \
+RUN hdfs hdfs namenode -format && \
   service hadoop-hdfs-namenode start && \
   service hadoop-hdfs-datanode start && \
   /usr/lib/hadoop/libexec/init-hdfs.sh && \
