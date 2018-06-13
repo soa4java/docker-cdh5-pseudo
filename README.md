@@ -61,4 +61,3 @@ This docker image doesn't completely follow  philosophy (one process = one image
 
 #### Custom port for your usecases
 This image has exposed one port (9999). It is not used by any currently running service. It can be used by you for example when you need to attach debugger to running mapreduce job. So your mapreduce job can start debugging server on this port.
-# docker-cdh5-pseudo
