@@ -19,7 +19,7 @@ RUN wget http://archive.cloudera.com/cdh5/ubuntu/trusty/amd64/cdh/archive.key -O
 
 # Install CDH package and dependencies
 RUN  apt-get update && \
-     apt-get install -y zookeeper-server && \
+     apt-get install -y zookeeper-server
 RUN  service zookeeper-server init
 
 RUN  apt-get install -y hadoop-conf-pseudo
